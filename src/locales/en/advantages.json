@@ -1,0 +1,9 @@
+{
+  "title": "Why choose us",
+  "items": [
+    { "title": "In-house design bureau", "desc": "Tailored solutions for every project" },
+    { "title": "Experienced team", "desc": "Quality assurance and deadline compliance" },
+    { "title": "Full cycle", "desc": "From drawings to commissioning" },
+    { "title": "Any project scale", "desc": "We work with holdings and farmers" }
+  ]
+}

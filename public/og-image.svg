@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" role="img" aria-label="3@>!B@>9><?;5:A">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#0f172a" />
+      <stop offset="1" stop-color="#1e293b" />
+    </linearGradient>
+    <linearGradient id="accent" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#f97316" />
+      <stop offset="1" stop-color="#ea580c" />
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="630" fill="url(#bg)" />
+  <circle cx="1060" cy="120" r="220" fill="#334155" opacity="0.25" />
+  <circle cx="160" cy="560" r="260" fill="#1f2937" opacity="0.4" />
+
+  <rect x="90" y="80" width="124" height="124" rx="24" fill="#0b1220" />
+  <path d="M152 94L106 190h18l9-20h38l9 20h18L152 94zm-8 52 8-18 8 18h-16z" fill="url(#accent)" />
+
+  <text x="250" y="145" fill="#f8fafc" font-family="Arial, Helvetica, sans-serif" font-size="54" font-weight="700">
+    3@>!B@>9><?;5:A
+  </text>
+  <text x="250" y="205" fill="#cbd5e1" font-family="Arial, Helvetica, sans-serif" font-size="30">
+    , 75@=>ACH8;:8 8 A:;04K ?>4 :;NG
+  </text>
+
+  <text x="90" y="325" fill="#f8fafc" font-family="Arial, Helvetica, sans-serif" font-size="44" font-weight="700">
+    @>5:B8@>20=85, ?@>872>4AB2>, <>=B06
+  </text>
+  <text x="90" y="385" fill="#94a3b8" font-family="Arial, Helvetica, sans-serif" font-size="30">
+    >;=K9 F8:; AB@>8B5;LAB20 03@>>1J5:B>2
+  </text>
+
+  <rect x="90" y="450" width="570" height="74" rx="14" fill="#0b1220" stroke="#334155" />
+  <text x="118" y="497" fill="#f97316" font-family="Arial, Helvetica, sans-serif" font-size="30" font-weight="700">
+    agrostroykomplex.ru
+  </text>
+</svg>

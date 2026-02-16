@@ -1,0 +1,21 @@
+{
+  "title": "Our services",
+  "items": [
+    {
+      "title": "Design engineering",
+      "desc": "Our design bureau creates custom projects of any complexity."
+    },
+    {
+      "title": "Grain cleaning complexes",
+      "desc": "Construction of complete grain cleaning facilities with full equipment."
+    },
+    {
+      "title": "Dryer and warehouse installation",
+      "desc": "Installation and commissioning of grain dryers and storage facilities."
+    },
+    {
+      "title": "Welding works",
+      "desc": "Welding services of any complexity for metal structures."
+    }
+  ]
+}
