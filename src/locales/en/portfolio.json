@@ -1,9 +1,9 @@
 {
   "title": "Our projects",
   "projects": [
-    { "title": "Grain complex in Krasnodar region", "desc": "Capacity 50 t/h · Duration 4 months" },
-    { "title": "Storage warehouse, Voronezh", "desc": "Capacity 10,000 t · Duration 5 months" },
-    { "title": "Grain dryer in Rostov region", "desc": "Capacity 30 t/h · Duration 3 months" },
-    { "title": "Sunflower seed cleaning in Kalach", "desc": "Capacity 100 t/h · Duration 8 months" }
+    { "title": "Cleaning equipment installation, oil plant (Kalach)", "desc": "Capacity 50 t/h · Duration 4 months" },
+    { "title": "Receiving pit and side-dump elevator, Kursk", "desc": "Capacity 10,000 t · Duration 5 months" },
+    { "title": "Grain complex without control room, Belgorod", "desc": "Capacity 30 t/h · Duration 3 months" },
+    { "title": "Grain complex in Tambov region", "desc": "Capacity 100 t/h · Duration 8 months" }
   ]
 }
