@@ -23,7 +23,7 @@ describe("SEO files", () => {
     expect(html).toMatch(/<title>[^<]+<\/title>/i);
     expect(html).not.toMatch(/Lovable App/i);
     // Allow pretty-printed <meta ...> across multiple lines.
-    expect(html).toMatch(/name\s*=\s*\"description\"/i);
+    expect(html).toMatch(/name\s*=\s*"description"/i);
   });
 });
 

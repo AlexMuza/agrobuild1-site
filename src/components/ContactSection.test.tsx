@@ -3,11 +3,11 @@ import userEvent from "@testing-library/user-event";
 import ContactSection from "@/components/ContactSection";
 import { LanguageProvider } from "@/contexts/LanguageContext";
 
-type MockResponse = { ok: boolean; status: number; json?: any; text?: string };
+type MockResponse = { ok: boolean; status: number; json?: unknown; text?: string };
 
 function mockFetch(handlers: Record<string, (init?: RequestInit) => MockResponse | Promise<MockResponse>>) {
-  const fetchMock = vi.fn(async (input: any, init?: RequestInit) => {
-    const url = typeof input === "string" ? input : input?.url;
+  const fetchMock = vi.fn(async (input: RequestInfo | URL, init?: RequestInit) => {
+    const url = typeof input === "string" ? input : input instanceof URL ? input.toString() : input.url;
     const handler = handlers[url];
     if (!handler) {
       throw new Error(`No fetch handler for ${url}`);
@@ -18,10 +18,10 @@ function mockFetch(handlers: Record<string, (init?: RequestInit) => MockResponse
       status: res.status,
       json: async () => res.json,
       text: async () => res.text ?? JSON.stringify(res.json ?? {}),
-    } as any;
+    } as unknown as Response;
   });
 
-  (globalThis as any).fetch = fetchMock;
+  globalThis.fetch = fetchMock as unknown as typeof fetch;
   return fetchMock;
 }
 

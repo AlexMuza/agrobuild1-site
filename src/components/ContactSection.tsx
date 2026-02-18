@@ -154,15 +154,17 @@ export default function ContactSection() {
       });
 
       if (!response.ok) {
-        let payload: any = null;
+        let payload: unknown = null;
         try {
           payload = await response.json();
         } catch {
           // ignore
         }
 
-        if (response.status === 429 && payload?.code === "COOLDOWN") {
-          const seconds = Number(payload?.retryAfterSeconds || 0);
+        const maybePayload = payload as { code?: unknown; retryAfterSeconds?: unknown } | null;
+
+        if (response.status === 429 && maybePayload?.code === "COOLDOWN") {
+          const seconds = Number(maybePayload?.retryAfterSeconds || 0);
           toast.error(t.contact.cooldown.replace("{seconds}", String(seconds)));
           return;
         }
@@ -175,11 +177,11 @@ export default function ContactSection() {
           return;
         }
 
-        if (payload?.code === "NAME_INVALID") setErrors({ name: t.contact.nameInvalid });
-        if (payload?.code === "PHONE_INVALID") setErrors({ phone: t.contact.phoneInvalid });
-        if (payload?.code === "COMMENT_INVALID" || payload?.code === "PROFANITY")
+        if (maybePayload?.code === "NAME_INVALID") setErrors({ name: t.contact.nameInvalid });
+        if (maybePayload?.code === "PHONE_INVALID") setErrors({ phone: t.contact.phoneInvalid });
+        if (maybePayload?.code === "COMMENT_INVALID" || maybePayload?.code === "PROFANITY")
           setErrors({ comment: t.contact.commentInvalid });
-        if (payload?.code === "CAPTCHA_FAILED") setErrors({ captcha: t.contact.captchaInvalid });
+        if (maybePayload?.code === "CAPTCHA_FAILED") setErrors({ captcha: t.contact.captchaInvalid });
 
         throw new Error(`Request failed with status ${response.status}`);
       }
