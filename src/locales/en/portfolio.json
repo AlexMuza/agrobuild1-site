@@ -1,9 +1,24 @@
 {
   "title": "Our projects",
+  "filters": {
+    "all": "All",
+    "zav": "ZAV",
+    "warehouses": "Warehouses",
+    "dryers": "Dryers"
+  },
+  "fallbackNote": "No cases for this category yet — showing similar projects.",
   "projects": [
-    { "title": "Cleaning equipment installation, oil plant (Kalach)", "desc": "Capacity 50 t/h · Duration 4 months" },
-    { "title": "Receiving pit and side-dump elevator, Kursk", "desc": "Capacity 10,000 t · Duration 5 months" },
-    { "title": "Grain complex without control room, Belgorod", "desc": "Capacity 30 t/h · Duration 3 months" },
-    { "title": "Grain complex in Tambov region", "desc": "Capacity 100 t/h · Duration 8 months" }
+    {
+      "title": "Cleaning equipment installation, oil plant (Kalach)",
+      "desc": "Capacity 50 t/h · Duration 4 months",
+      "tags": ["zav"]
+    },
+    {
+      "title": "Receiving pit and side-dump elevator, Kursk",
+      "desc": "Capacity 10,000 t · Duration 5 months",
+      "tags": ["zav"]
+    },
+    { "title": "Grain complex without control room, Belgorod", "desc": "Capacity 30 t/h · Duration 3 months", "tags": ["zav"] },
+    { "title": "Grain complex in Tambov region", "desc": "Capacity 100 t/h · Duration 8 months", "tags": ["zav"] }
   ]
 }

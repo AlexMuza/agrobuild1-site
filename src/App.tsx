@@ -6,6 +6,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
 import { LanguageProvider } from "./contexts/LanguageContext";
+import ScrollToHash from "./components/ScrollToHash";
 import GrainDryersPage from "./pages/services/GrainDryers";
 import GrainDryersInstallationPage from "./pages/services/GrainDryersInstallation";
 import ZavTurnkeyPage from "./pages/services/ZavTurnkey";
@@ -24,6 +25,7 @@ const App = () => (
         <Toaster />
         <Sonner />
         <BrowserRouter>
+          <ScrollToHash />
           <Routes>
             <Route path="/" element={<Index />} />
             <Route path="/services/grain-dryers" element={<GrainDryersPage />} />

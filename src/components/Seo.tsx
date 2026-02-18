@@ -5,6 +5,7 @@ import { useLanguage } from "@/contexts/LanguageContext";
 type SeoProps = {
   title: string;
   description: string;
+  jsonLd?: Record<string, unknown> | Array<Record<string, unknown>>;
 };
 
 const CANONICAL_ORIGIN = "https://www.agrobuild1.com";
@@ -39,7 +40,26 @@ function upsertLink(rel: string, attrs: Record<string, string>) {
   });
 }
 
-export function Seo({ title, description }: SeoProps) {
+function removeJsonLdScripts() {
+  document.head.querySelectorAll('script[data-seo-jsonld="true"]').forEach((el) => el.remove());
+}
+
+function upsertJsonLd(jsonLd?: SeoProps["jsonLd"]) {
+  removeJsonLdScripts();
+  if (!jsonLd) return;
+
+  const items = Array.isArray(jsonLd) ? jsonLd : [jsonLd];
+  items.forEach((item, idx) => {
+    const el = document.createElement("script");
+    el.setAttribute("type", "application/ld+json");
+    el.setAttribute("data-seo-jsonld", "true");
+    el.setAttribute("data-seo-jsonld-idx", String(idx));
+    el.text = JSON.stringify(item);
+    document.head.appendChild(el);
+  });
+}
+
+export function Seo({ title, description, jsonLd }: SeoProps) {
   const location = useLocation();
   const { language } = useLanguage();
 
@@ -63,7 +83,15 @@ export function Seo({ title, description }: SeoProps) {
     upsertMeta("property", "og:locale", language === "ru" ? "ru_RU" : "en_US");
     upsertMeta("name", "twitter:title", title);
     upsertMeta("name", "twitter:description", description);
-  }, [location.pathname, language, title, description]);
+
+    // Structured data (FAQ, Organization, etc). Replaced on each change.
+    upsertJsonLd(jsonLd);
+
+    // Cleanup to avoid stale JSON-LD on route changes/unmount.
+    return () => {
+      removeJsonLdScripts();
+    };
+  }, [location.pathname, language, title, description, jsonLd]);
 
   return null;
 }
