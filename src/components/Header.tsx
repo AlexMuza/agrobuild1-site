@@ -1,6 +1,7 @@
 import { Phone, Menu, X } from "lucide-react";
 import { useState } from "react";
 import { useLanguage } from "@/contexts/LanguageContext";
+import { useLocation, useNavigate } from "react-router-dom";
 
 // Use absolute hash links so navigation works from any route (service pages too).
 const navHrefs = ["/#about", "/#services", "/#portfolio", "/#advantages", "/#contact"];
@@ -8,6 +9,25 @@ const navHrefs = ["/#about", "/#services", "/#portfolio", "/#advantages", "/#con
 export default function Header() {
   const [open, setOpen] = useState(false);
   const { language, setLanguage, t } = useLanguage();
+  const location = useLocation();
+  const navigate = useNavigate();
+
+  const goToContact: React.MouseEventHandler<HTMLAnchorElement> = (e) => {
+    e.preventDefault();
+    setOpen(false);
+
+    // If we're already on a page that contains the contact section ("/" and service pages),
+    // just update hash; ScrollToHash will handle the smooth scroll.
+    const hasContactOnPage = location.pathname === "/" || location.pathname.startsWith("/services/");
+    const search = window.location.search || "";
+    if (hasContactOnPage) {
+      navigate({ pathname: location.pathname, search, hash: "#contact" });
+      return;
+    }
+
+    // Otherwise, go to homepage contact.
+    navigate({ pathname: "/", search, hash: "#contact" });
+  };
 
   return (
     <header className="fixed top-0 left-0 right-0 z-50 bg-surface-darker/95 backdrop-blur-md border-b border-border/10 notranslate">
@@ -59,6 +79,7 @@ export default function Header() {
           </a>
           <a
             href="/#contact"
+            onClick={goToContact}
             className="bg-primary text-primary-foreground px-5 py-2 rounded text-sm font-semibold hover:bg-accent transition-colors"
           >
             {t.callBack}
@@ -111,7 +132,7 @@ export default function Header() {
             </a>
             <a
               href="/#contact"
-              onClick={() => setOpen(false)}
+              onClick={goToContact}
               className="bg-primary text-primary-foreground px-5 py-2 rounded text-sm font-semibold text-center hover:bg-accent transition-colors"
             >
               {t.callBack}
