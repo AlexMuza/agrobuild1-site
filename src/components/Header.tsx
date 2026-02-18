@@ -48,6 +48,7 @@ export default function Header() {
             <a
               key={href}
               href={href}
+              onClick={href.endsWith("#contact") ? goToContact : undefined}
               className="text-sm font-medium text-surface-dark-foreground/70 hover:text-primary transition-colors"
             >
               {t.nav[i]}
@@ -120,7 +121,7 @@ export default function Header() {
               <a
                 key={href}
                 href={href}
-                onClick={() => setOpen(false)}
+                onClick={href.endsWith("#contact") ? goToContact : () => setOpen(false)}
                 className="text-surface-dark-foreground/80 hover:text-primary transition-colors text-sm font-medium"
               >
                 {t.nav[i]}
