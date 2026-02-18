@@ -245,6 +245,34 @@ export function createApp(options = {}) {
     });
   }
 
+  async function sendToMax(message) {
+    const token = requireEnv("MAX_BOT_TOKEN");
+    const userId = getOptionalEnv("MAX_USER_ID");
+    const chatId = getOptionalEnv("MAX_CHAT_ID");
+    if (!userId && !chatId) {
+      throw new Error("MAX is enabled but MAX_USER_ID or MAX_CHAT_ID is missing.");
+    }
+
+    const url = new URL("https://platform-api.max.ru/messages");
+    if (userId) url.searchParams.set("user_id", String(userId));
+    if (chatId) url.searchParams.set("chat_id", String(chatId));
+    url.searchParams.set("disable_link_preview", "true");
+
+    const response = await fetchImpl(url.toString(), {
+      method: "POST",
+      headers: {
+        Authorization: token,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ text: message }),
+    });
+
+    if (!response.ok) {
+      const body = await response.text();
+      throw new Error(`MAX request failed: ${response.status} ${body}`);
+    }
+  }
+
   app.get("/api/captcha", (_req, res) => {
     if (CAPTCHA_DISABLED) {
       res.json({ ok: true, disabled: true });
@@ -339,8 +367,9 @@ export function createApp(options = {}) {
         getOptionalEnv("SMTP_FROM") &&
         getOptionalEnv("SMTP_TO"),
     );
+    const hasMax = Boolean(getOptionalEnv("MAX_BOT_TOKEN") && (getOptionalEnv("MAX_CHAT_ID") || getOptionalEnv("MAX_USER_ID")));
 
-    if (!hasTelegram && !hasEmail) {
+    if (!hasTelegram && !hasEmail && !hasMax) {
       sendError(res, 500, "NOT_CONFIGURED", "No delivery channel configured.");
       return;
     }
@@ -348,6 +377,7 @@ export function createApp(options = {}) {
     const deliveryTasks = [];
     if (hasTelegram) deliveryTasks.push({ channel: "telegram", task: sendToTelegram(message) });
     if (hasEmail) deliveryTasks.push({ channel: "email", task: sendToEmail({ name, phone: phoneE164, comment }) });
+    if (hasMax) deliveryTasks.push({ channel: "max", task: sendToMax(message) });
 
     const settled = await Promise.allSettled(deliveryTasks.map((item) => item.task));
 
@@ -386,6 +416,7 @@ export function createApp(options = {}) {
         getOptionalEnv("SMTP_FROM") &&
         getOptionalEnv("SMTP_TO"),
     );
+    const hasMax = Boolean(getOptionalEnv("MAX_BOT_TOKEN") && (getOptionalEnv("MAX_CHAT_ID") || getOptionalEnv("MAX_USER_ID")));
 
     const missingEmail = [];
     if (!getOptionalEnv("SMTP_HOST")) missingEmail.push("SMTP_HOST");
@@ -394,12 +425,17 @@ export function createApp(options = {}) {
     if (!getOptionalEnv("SMTP_FROM")) missingEmail.push("SMTP_FROM");
     if (!getOptionalEnv("SMTP_TO")) missingEmail.push("SMTP_TO");
 
+    const missingMax = [];
+    if (!getOptionalEnv("MAX_BOT_TOKEN")) missingMax.push("MAX_BOT_TOKEN");
+    if (!getOptionalEnv("MAX_USER_ID") && !getOptionalEnv("MAX_CHAT_ID")) missingMax.push("MAX_USER_ID or MAX_CHAT_ID");
+
     res.json({
       ok: true,
       port: Number(env.PORT || env.SERVER_PORT || 8787),
       yourIp: ip,
       telegramConfigured: hasTelegram,
       emailConfigured: hasEmail,
+      maxConfigured: hasMax,
       captchaDisabled: CAPTCHA_DISABLED,
       rateLimit: { windowMs: RATE_LIMIT_WINDOW_MS, max: RATE_LIMIT_MAX },
       cooldownSeconds: MIN_SECONDS_BETWEEN_LEADS,
@@ -409,6 +445,7 @@ export function createApp(options = {}) {
         words: BLACKLIST_WORDS.length,
       },
       missingEmail,
+      missingMax,
     });
   });
 
