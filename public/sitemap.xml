@@ -1,11 +1,75 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
-    <loc>/</loc>
+    <loc>https://www.agrobuild1.com/</loc>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
-    <xhtml:link rel="alternate" hreflang="ru" href="/?lang=ru" />
-    <xhtml:link rel="alternate" hreflang="en" href="/?lang=en" />
-    <xhtml:link rel="alternate" hreflang="x-default" href="/" />
+    <xhtml:link rel="alternate" hreflang="ru" href="https://www.agrobuild1.com/?lang=ru" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.agrobuild1.com/?lang=en" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.agrobuild1.com/" />
+  </url>
+  <url>
+    <loc>https://www.agrobuild1.com/services/grain-dryers</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://www.agrobuild1.com/services/grain-dryers?lang=ru" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.agrobuild1.com/services/grain-dryers?lang=en" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.agrobuild1.com/services/grain-dryers" />
+  </url>
+  <url>
+    <loc>https://www.agrobuild1.com/services/grain-dryers/installation</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://www.agrobuild1.com/services/grain-dryers/installation?lang=ru" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.agrobuild1.com/services/grain-dryers/installation?lang=en" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.agrobuild1.com/services/grain-dryers/installation" />
+  </url>
+  <url>
+    <loc>https://www.agrobuild1.com/services/zav-turnkey</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://www.agrobuild1.com/services/zav-turnkey?lang=ru" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.agrobuild1.com/services/zav-turnkey?lang=en" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.agrobuild1.com/services/zav-turnkey" />
+  </url>
+  <url>
+    <loc>https://www.agrobuild1.com/services/conveyors</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://www.agrobuild1.com/services/conveyors?lang=ru" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.agrobuild1.com/services/conveyors?lang=en" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.agrobuild1.com/services/conveyors" />
+  </url>
+  <url>
+    <loc>https://www.agrobuild1.com/services/grain-cleaning</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://www.agrobuild1.com/services/grain-cleaning?lang=ru" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.agrobuild1.com/services/grain-cleaning?lang=en" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.agrobuild1.com/services/grain-cleaning" />
+  </url>
+  <url>
+    <loc>https://www.agrobuild1.com/services/grain-warehouses</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://www.agrobuild1.com/services/grain-warehouses?lang=ru" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.agrobuild1.com/services/grain-warehouses?lang=en" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.agrobuild1.com/services/grain-warehouses" />
+  </url>
+  <url>
+    <loc>https://www.agrobuild1.com/services/hangars</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://www.agrobuild1.com/services/hangars?lang=ru" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.agrobuild1.com/services/hangars?lang=en" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.agrobuild1.com/services/hangars" />
+  </url>
+  <url>
+    <loc>https://www.agrobuild1.com/services/design</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://www.agrobuild1.com/services/design?lang=ru" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.agrobuild1.com/services/design?lang=en" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.agrobuild1.com/services/design" />
   </url>
 </urlset>

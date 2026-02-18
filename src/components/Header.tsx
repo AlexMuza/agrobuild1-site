@@ -2,7 +2,8 @@ import { Phone, Menu, X } from "lucide-react";
 import { useState } from "react";
 import { useLanguage } from "@/contexts/LanguageContext";
 
-const navHrefs = ["#about", "#services", "#portfolio", "#advantages", "#contact"];
+// Use absolute hash links so navigation works from any route (service pages too).
+const navHrefs = ["/#about", "/#services", "/#portfolio", "/#advantages", "/#contact"];
 
 export default function Header() {
   const [open, setOpen] = useState(false);
@@ -12,7 +13,7 @@ export default function Header() {
     <header className="fixed top-0 left-0 right-0 z-50 bg-surface-darker/95 backdrop-blur-md border-b border-border/10 notranslate">
       <div className="container mx-auto flex items-center justify-between h-16 px-4">
         {/* Logo */}
-        <a href="#" className="flex items-center gap-2">
+        <a href="/" className="flex items-center gap-2">
           <div className="w-9 h-9 rounded bg-primary flex items-center justify-center">
             <span className="font-display font-bold text-primary-foreground text-lg">A</span>
           </div>
@@ -57,7 +58,7 @@ export default function Header() {
             <span>+7 (980) 248-84-85</span>
           </a>
           <a
-            href="#contact"
+            href="/#contact"
             className="bg-primary text-primary-foreground px-5 py-2 rounded text-sm font-semibold hover:bg-accent transition-colors"
           >
             {t.callBack}
@@ -109,7 +110,7 @@ export default function Header() {
               +7 (980) 248-84-85
             </a>
             <a
-              href="#contact"
+              href="/#contact"
               onClick={() => setOpen(false)}
               className="bg-primary text-primary-foreground px-5 py-2 rounded text-sm font-semibold text-center hover:bg-accent transition-colors"
             >

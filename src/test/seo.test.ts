@@ -14,7 +14,8 @@ describe("SEO files", () => {
     expect(existsSync(robotsPath)).toBe(true);
 
     const robots = readFileSync(robotsPath, "utf-8");
-    expect(robots).toMatch(/Sitemap:\s*\/sitemap\.xml/i);
+    // Allow both relative and absolute sitemap URLs.
+    expect(robots).toMatch(/Sitemap:\s*(https?:\/\/[^\s]+)?\/sitemap\.xml/i);
   });
 
   it("index.html has non-placeholder title and description", () => {
