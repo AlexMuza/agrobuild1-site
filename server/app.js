@@ -360,6 +360,10 @@ export function createApp(options = {}) {
     });
 
     if (delivered.length > 0) {
+      // Log partial delivery failures (e.g. telegram ok but email failed).
+      if (failed.length > 0) {
+        console.error("Lead delivered partially:", { delivered, failed });
+      }
       markLead(ip);
       res.json({ ok: true, delivered, failed });
       return;

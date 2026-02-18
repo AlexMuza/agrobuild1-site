@@ -10,6 +10,7 @@
   "creditDescription": "Leave a request and we will help you choose a suitable loan from a partner bank. Application review is free, decision within 1 business day.",
   "fillRequired": "Please enter your name and phone number",
   "requestSent": "Request sent! We will call you back shortly.",
+  "emailDeliveryFailed": "Email delivery failed. Your request is accepted — we will contact you by phone.",
   "sending": "Sending...",
   "requestError": "Failed to send request. Please try again.",
   "nameInvalid": "Enter a valid name (2-60 letters).",

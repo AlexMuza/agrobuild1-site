@@ -186,6 +186,19 @@ export default function ContactSection() {
         throw new Error(`Request failed with status ${response.status}`);
       }
 
+      // Backend may accept the request but fail to deliver via one of the channels.
+      // We still show success, but surface partial delivery (e.g. email failed).
+      try {
+        const payload = (await response.json()) as { delivered?: unknown; failed?: unknown };
+        const failed = Array.isArray(payload?.failed) ? payload.failed.map(String) : [];
+        const emailFailed = failed.some((f) => f.toLowerCase().startsWith("email:"));
+        if (emailFailed) {
+          toast.error(t.contact.emailDeliveryFailed);
+        }
+      } catch {
+        // ignore
+      }
+
       toast.success(t.contact.requestSent);
       setForm({ name: "", phone: "", comment: "", website: "", captchaAnswer: "" });
       await loadCaptcha();

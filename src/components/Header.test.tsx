@@ -2,12 +2,15 @@ import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import Header from "@/components/Header";
 import { LanguageProvider } from "@/contexts/LanguageContext";
+import { MemoryRouter } from "react-router-dom";
 
 function renderHeader() {
   return render(
-    <LanguageProvider>
-      <Header />
-    </LanguageProvider>,
+    <MemoryRouter initialEntries={["/"]}>
+      <LanguageProvider>
+        <Header />
+      </LanguageProvider>
+    </MemoryRouter>,
   );
 }
 
