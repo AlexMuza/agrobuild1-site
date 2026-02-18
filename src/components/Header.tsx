@@ -4,13 +4,28 @@ import { useLanguage } from "@/contexts/LanguageContext";
 import { useLocation, useNavigate } from "react-router-dom";
 
 // Use absolute hash links so navigation works from any route (service pages too).
-const navHrefs = ["/#about", "/#services", "/#portfolio", "/#advantages", "/#contact"];
+const navHrefs = ["/#about", "/#services", "/#portfolio", "/#advantages", "/#footer"];
 
 export default function Header() {
   const [open, setOpen] = useState(false);
   const { language, setLanguage, t } = useLanguage();
   const location = useLocation();
   const navigate = useNavigate();
+
+  const goToFooter: React.MouseEventHandler<HTMLAnchorElement> = (e) => {
+    e.preventDefault();
+    setOpen(false);
+
+    // Footer exists on the homepage and service pages (and should be present on most routes).
+    const hasFooterOnPage = location.pathname === "/" || location.pathname.startsWith("/services/");
+    const search = window.location.search || "";
+    if (hasFooterOnPage) {
+      navigate({ pathname: location.pathname, search, hash: "#footer" });
+      return;
+    }
+
+    navigate({ pathname: "/", search, hash: "#footer" });
+  };
 
   const goToContact: React.MouseEventHandler<HTMLAnchorElement> = (e) => {
     e.preventDefault();
@@ -48,7 +63,7 @@ export default function Header() {
             <a
               key={href}
               href={href}
-              onClick={href.endsWith("#contact") ? goToContact : undefined}
+              onClick={href.endsWith("#footer") ? goToFooter : undefined}
               className="text-sm font-medium text-surface-dark-foreground/70 hover:text-primary transition-colors"
             >
               {t.nav[i]}
@@ -121,7 +136,7 @@ export default function Header() {
               <a
                 key={href}
                 href={href}
-                onClick={href.endsWith("#contact") ? goToContact : () => setOpen(false)}
+                onClick={href.endsWith("#footer") ? goToFooter : () => setOpen(false)}
                 className="text-surface-dark-foreground/80 hover:text-primary transition-colors text-sm font-medium"
               >
                 {t.nav[i]}

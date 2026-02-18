@@ -5,7 +5,7 @@ export default function Footer() {
   const { language, t } = useLanguage();
 
   return (
-    <footer className="bg-surface-darker py-12 border-t border-border/10">
+    <footer id="footer" className="bg-surface-darker py-12 border-t border-border/10">
       <div className="container mx-auto px-4">
         <div className="flex flex-col md:flex-row items-center justify-between gap-8">
           <div className="text-center md:text-left">
