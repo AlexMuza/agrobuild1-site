@@ -12,19 +12,28 @@ export default function Header() {
   const location = useLocation();
   const navigate = useNavigate();
 
-  const goToFooter: React.MouseEventHandler<HTMLAnchorElement> = (e) => {
-    e.preventDefault();
-    setOpen(false);
+  const goToHash = (hash: string): React.MouseEventHandler<HTMLAnchorElement> => {
+    return (e) => {
+      e.preventDefault();
+      setOpen(false);
 
-    // Footer exists on the homepage and service pages (and should be present on most routes).
-    const hasFooterOnPage = location.pathname === "/" || location.pathname.startsWith("/services/");
-    const search = window.location.search || "";
-    if (hasFooterOnPage) {
-      navigate({ pathname: location.pathname, search, hash: "#footer" });
-      return;
-    }
+      const search = window.location.search || "";
 
-    navigate({ pathname: "/", search, hash: "#footer" });
+      // Hashes that exist only on the homepage.
+      if (hash === "#about" || hash === "#services" || hash === "#portfolio" || hash === "#advantages") {
+        navigate({ pathname: "/", search, hash });
+        return;
+      }
+
+      // Hashes that exist on both homepage and service pages.
+      const hasOnCurrentPage = location.pathname === "/" || location.pathname.startsWith("/services/");
+      if (hasOnCurrentPage) {
+        navigate({ pathname: location.pathname, search, hash });
+        return;
+      }
+
+      navigate({ pathname: "/", search, hash });
+    };
   };
 
   const goToContact: React.MouseEventHandler<HTMLAnchorElement> = (e) => {
@@ -63,7 +72,7 @@ export default function Header() {
             <a
               key={href}
               href={href}
-              onClick={href.endsWith("#footer") ? goToFooter : undefined}
+              onClick={goToHash(href.slice(href.indexOf("#")))}
               className="text-sm font-medium text-surface-dark-foreground/70 hover:text-primary transition-colors"
             >
               {t.nav[i]}
@@ -136,7 +145,7 @@ export default function Header() {
               <a
                 key={href}
                 href={href}
-                onClick={href.endsWith("#footer") ? goToFooter : () => setOpen(false)}
+                onClick={goToHash(href.slice(href.indexOf("#")))}
                 className="text-surface-dark-foreground/80 hover:text-primary transition-colors text-sm font-medium"
               >
                 {t.nav[i]}
