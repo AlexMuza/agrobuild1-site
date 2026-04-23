@@ -191,7 +191,10 @@ export default function ContactSection() {
       try {
         const payload = (await response.json()) as { delivered?: unknown; failed?: unknown };
         const failed = Array.isArray(payload?.failed) ? payload.failed.map(String) : [];
-        const emailFailed = failed.some((f) => f.toLowerCase().startsWith("email:"));
+        const emailFailed = failed.some((f) => {
+          const s = f.toLowerCase().trim();
+          return s === "email" || s.startsWith("email:");
+        });
         if (emailFailed) {
           toast.error(t.contact.emailDeliveryFailed);
         }
@@ -202,8 +205,7 @@ export default function ContactSection() {
       toast.success(t.contact.requestSent);
       setForm({ name: "", phone: "", comment: "", website: "", captchaAnswer: "" });
       await loadCaptcha();
-    } catch (error) {
-      console.error("Failed to submit lead:", error);
+    } catch {
       toast.error(t.contact.requestError);
       await loadCaptcha();
     } finally {

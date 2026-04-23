@@ -3,6 +3,7 @@ set -euo pipefail
 
 # This script is intended to run on the VPS.
 # GitHub Actions deploy.yml runs these commands via SSH.
+# По умолчанию DEPLOY_PATH = /var/www/html — боевой каталог www.agrobuild1.com на VPS.
 
 : "${DEPLOY_PATH:=/var/www/html}"
 : "${PM2_APP_NAME:=agrobuild1}"

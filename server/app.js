@@ -13,7 +13,28 @@ export function createApp(options = {}) {
   const randomInt = options.randomInt ?? crypto.randomInt;
 
   const app = express();
+
+  /** До парсинга тела — чтобы при ошибке JSON в логах был тот же requestId. */
+  app.use((req, res, next) => {
+    req.requestId = crypto.randomUUID();
+    res.setHeader("X-Request-Id", req.requestId);
+    next();
+  });
+
   app.use(express.json());
+
+  /** Структурированный лог сервера: без тел заявок, токенов и тел ответов внешних API. */
+  function logServerEvent(payload) {
+    console.error(JSON.stringify({ t: new Date().toISOString(), ...payload }));
+  }
+
+  function classifyRejection(reason) {
+    if (reason && typeof reason === "object" && typeof reason.code === "string" && reason.code) {
+      return reason.code;
+    }
+    if (reason instanceof Error) return reason.name || "Error";
+    return "Unknown";
+  }
 
   const __filename = fileURLToPath(import.meta.url);
   const __dirname = path.dirname(__filename);
@@ -210,8 +231,11 @@ export function createApp(options = {}) {
     });
 
     if (!response.ok) {
-      const body = await response.text();
-      throw new Error(`Telegram request failed: ${response.status} ${body}`);
+      await response.text().catch(() => {});
+      const err = new Error("Telegram upstream error");
+      err.code = "TELEGRAM_UPSTREAM";
+      err.status = response.status;
+      throw err;
     }
   }
 
@@ -268,8 +292,11 @@ export function createApp(options = {}) {
     });
 
     if (!response.ok) {
-      const body = await response.text();
-      throw new Error(`MAX request failed: ${response.status} ${body}`);
+      await response.text().catch(() => {});
+      const err = new Error("MAX upstream error");
+      err.code = "MAX_UPSTREAM";
+      err.status = response.status;
+      throw err;
     }
   }
 
@@ -370,7 +397,8 @@ export function createApp(options = {}) {
     const hasMax = Boolean(getOptionalEnv("MAX_BOT_TOKEN") && (getOptionalEnv("MAX_CHAT_ID") || getOptionalEnv("MAX_USER_ID")));
 
     if (!hasTelegram && !hasEmail && !hasMax) {
-      sendError(res, 500, "NOT_CONFIGURED", "No delivery channel configured.");
+      logServerEvent({ requestId: req.requestId, kind: "NOT_CONFIGURED" });
+      sendError(res, 500, "NOT_CONFIGURED", "No delivery channel configured.", { requestId: req.requestId });
       return;
     }
 
@@ -386,20 +414,34 @@ export function createApp(options = {}) {
     settled.forEach((result, idx) => {
       const channel = deliveryTasks[idx].channel;
       if (result.status === "fulfilled") delivered.push(channel);
-      else failed.push(`${channel}: ${result.reason}`);
+      else failed.push({ channel, errorKind: classifyRejection(result.reason) });
     });
 
     if (delivered.length > 0) {
-      // Log partial delivery failures (e.g. telegram ok but email failed).
       if (failed.length > 0) {
-        console.error("Lead delivered partially:", { delivered, failed });
+        logServerEvent({
+          requestId: req.requestId,
+          kind: "LEAD_PARTIAL_FAILURE",
+          delivered,
+          failures: failed.map((f) => ({ channel: f.channel, errorKind: f.errorKind })),
+        });
       }
       markLead(ip);
-      res.json({ ok: true, delivered, failed });
+      res.json({ ok: true, delivered, failed: failed.map((f) => f.channel) });
       return;
     }
 
-    res.status(502).json({ ok: false, message: "Failed to deliver lead to all configured channels", details: failed });
+    logServerEvent({
+      requestId: req.requestId,
+      kind: "LEAD_ALL_CHANNELS_FAILED",
+      failures: failed.map((f) => ({ channel: f.channel, errorKind: f.errorKind })),
+    });
+    res.status(502).json({
+      ok: false,
+      code: "DELIVERY_FAILED",
+      message: "Failed to deliver lead to all configured channels.",
+      requestId: req.requestId,
+    });
   });
 
   app.get("/api/health", (_req, res) => {
@@ -464,6 +506,20 @@ export function createApp(options = {}) {
       });
     }
   }
+
+  // Неожиданные ошибки: в лог только requestId и тип/код, без тела запроса и stack в проде.
+  app.use((err, req, res, _next) => {
+    const requestId = req.requestId ?? "unknown";
+    const errorKind = err?.code && typeof err.code === "string" ? err.code : err?.name || "Error";
+    logServerEvent({ requestId, kind: "UNHANDLED_ERROR", errorKind });
+    if (res.headersSent) return;
+    res.status(500).json({
+      ok: false,
+      code: "INTERNAL_ERROR",
+      message: "Internal server error.",
+      requestId,
+    });
+  });
 
   return { app };
 }
